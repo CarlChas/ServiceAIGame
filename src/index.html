@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Battle Skills</title>
+</head>
+<body>
+  <button onclick="chooseSkill()">Choose Battle Skill</button>
+  <p id="skill"></p>
+
+  <script>
+    async function chooseSkill() {
+      const res = await fetch('/choose-skill')
+      const data = await res.json()
+      document.getElementById('skill').innerText = data.skill
+    }
+  </script>
+</body>
+</html>
