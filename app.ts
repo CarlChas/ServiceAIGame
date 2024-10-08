@@ -15,15 +15,20 @@ async function getSkillResponse(prompt: string): Promise<string> {
     const response = await openai.chat.completions.create({
         messages: [
             { role: 'user', content: prompt },
-            { role: 'system', content: 'You can only respond with "Normal Attack", "Strong Attack", or "Weak Attack".' },
+            { role: 'system', content: 'You are a goblin in a battle. Respond by choosing one of the following battle moves: "Normal Attack", "Strong Attack", or "Weak Attack". As a goblin, include a small dialogue with your choice, for example: "Goblin snarls and attacks with a Weak Attack!"' }
         ],
         model: 'gpt-4o-mini', // or 'gpt-3.5-turbo'
-        max_tokens: 10,  // Limit response to a single word
+        max_tokens: 30,  // Limit response to a single word
+        temperature: 0.8,   // Thanks GPT <3
     })
-    const skill = response.choices?.[0]?.message?.content?.trim() ?? 'Unknown'
-
     const allowedSkills = ["Normal Attack", "Strong Attack", "Weak Attack"]
-    return allowedSkills.includes(skill) ? skill : "Unknown"
+    const goblinResponse = response.choices?.[0]?.message?.content?.trim() ?? 'Goblin seems confused and makes no move...'
+
+    if (!allowedSkills.some(skill => goblinResponse.includes(skill))) {
+        return 'Goblin seems confused and makes no move...'
+    }
+    return goblinResponse;
+
 }
 
 const app = express()

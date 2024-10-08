@@ -25,11 +25,20 @@ function getSkillResponse(prompt) {
     return __awaiter(this, void 0, void 0, function* () {
         var _a, _b, _c, _d, _e;
         const response = yield openai.chat.completions.create({
-            messages: [{ role: 'user', content: prompt }],
+            messages: [
+                { role: 'user', content: prompt },
+                { role: 'system', content: 'You are a goblin in a battle. Respond by choosing one of the following battle moves: "Normal Attack", "Strong Attack", or "Weak Attack". As a goblin, include a small dialogue with your choice, for example: "Goblin snarls and attacks with a Weak Attack!"' }
+            ],
             model: 'gpt-4o-mini', // or 'gpt-3.5-turbo'
-            max_tokens: 1, // Limit response to a single word
+            max_tokens: 30, // Limit response to a single word
+            temperature: 0.8, // Thanks GPT <3
         });
-        return (_e = (_d = (_c = (_b = (_a = response.choices) === null || _a === void 0 ? void 0 : _a[0]) === null || _b === void 0 ? void 0 : _b.message) === null || _c === void 0 ? void 0 : _c.content) === null || _d === void 0 ? void 0 : _d.trim()) !== null && _e !== void 0 ? _e : 'Unknown';
+        const allowedSkills = ["Normal Attack", "Strong Attack", "Weak Attack"];
+        const goblinResponse = (_e = (_d = (_c = (_b = (_a = response.choices) === null || _a === void 0 ? void 0 : _a[0]) === null || _b === void 0 ? void 0 : _b.message) === null || _c === void 0 ? void 0 : _c.content) === null || _d === void 0 ? void 0 : _d.trim()) !== null && _e !== void 0 ? _e : 'Goblin seems confused and makes no move...';
+        if (!allowedSkills.some(skill => goblinResponse.includes(skill))) {
+            return 'Goblin seems confused and makes no move...';
+        }
+        return goblinResponse;
     });
 }
 const app = (0, express_1.default)();
