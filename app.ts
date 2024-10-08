@@ -2,7 +2,7 @@ import express from 'express'
 import { OpenAI } from 'openai'
 import dotenv from 'dotenv'
 
-dotenv.config({ path: './.env' })
+dotenv.config()
 
 // Create OpenAI client
 const openai = new OpenAI({
