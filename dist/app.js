@@ -26,7 +26,7 @@ function getSkillResponse(prompt) {
         var _a, _b, _c, _d, _e;
         const response = yield openai.chat.completions.create({
             messages: [{ role: 'user', content: prompt }],
-            model: 'gpt-4', // or 'gpt-3.5-turbo'
+            model: 'gpt-4o-mini', // or 'gpt-3.5-turbo'
             max_tokens: 1, // Limit response to a single word
         });
         return (_e = (_d = (_c = (_b = (_a = response.choices) === null || _a === void 0 ? void 0 : _a[0]) === null || _b === void 0 ? void 0 : _b.message) === null || _c === void 0 ? void 0 : _c.content) === null || _d === void 0 ? void 0 : _d.trim()) !== null && _e !== void 0 ? _e : 'Unknown';
