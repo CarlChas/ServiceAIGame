@@ -20,6 +20,7 @@ dotenv_1.default.config();
 const openai = new openai_1.OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
 });
+console.log('API Key:', process.env.OPENAI_API_KEY);
 function getSkillResponse(prompt) {
     return __awaiter(this, void 0, void 0, function* () {
         var _a, _b, _c, _d, _e;

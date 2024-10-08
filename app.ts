@@ -9,6 +9,8 @@ const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
 })
 
+console.log('API Key:', process.env.OPENAI_API_KEY)
+
 async function getSkillResponse(prompt: string): Promise<string> {
     const response = await openai.chat.completions.create({
         messages: [{ role: 'user', content: prompt }],
