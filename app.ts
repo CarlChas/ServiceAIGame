@@ -13,11 +13,17 @@ console.log('API Key:', process.env.OPENAI_API_KEY)
 
 async function getSkillResponse(prompt: string): Promise<string> {
     const response = await openai.chat.completions.create({
-        messages: [{ role: 'user', content: prompt }],
+        messages: [
+            { role: 'user', content: prompt },
+            { role: 'system', content: 'You can only respond with "Normal Attack", "Strong Attack", or "Weak Attack".' },
+        ],
         model: 'gpt-4o-mini', // or 'gpt-3.5-turbo'
-        max_tokens: 1,  // Limit response to a single word
+        max_tokens: 10,  // Limit response to a single word
     })
-    return response.choices?.[0]?.message?.content?.trim() ?? 'Unknown'
+    const skill = response.choices?.[0]?.message?.content?.trim() ?? 'Unknown'
+
+    const allowedSkills = ["Normal Attack", "Strong Attack", "Weak Attack"]
+    return allowedSkills.includes(skill) ? skill : "Unknown"
 }
 
 const app = express()
