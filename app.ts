@@ -2,11 +2,11 @@ import express from 'express'
 import { OpenAI } from 'openai'
 import dotenv from 'dotenv'
 
-dotenv.config()
+dotenv.config({ path: './.env' })
 
 // Create OpenAI client
 const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
+    apiKey: process.env.OPENAI_API_KEY
 })
 
 console.log('API Key:', process.env.OPENAI_API_KEY)
