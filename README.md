@@ -10,4 +10,4 @@ När det kommer till säker användning saknas det relevans från användaren d�
 
 &nbsp;&nbsp;&nbsp;&nbsp;När det kommer till den etiska frågan för att undvika exkludering och fördomar samt dylika ting bör spelets AI hantera det automatiskt pågrund av den är tagen direkt från OpenAI. Även om det skulle falla igenom är det planerat att insätta filter som blockerar användningen av specifika ord/meningar innan en potentiell lansering av spelet.
 
-Den enda tankarna jag har haft är att jag vill spela ett spel som är "turn-based rpg" och som inkluderar oändliga omkörningar med variation. Hoppet är väl att ha en LLM som inte kräver en extern API-nyckel med begränsade användningar, men vi får se.
+De enda tankarna jag har haft är att jag vill spela ett spel som är "turn-based rpg" och som inkluderar oändliga omkörningar med variation. Hoppet är väl att ha en LLM som inte kräver en extern API-nyckel med begränsade användningar, men vi får se.
