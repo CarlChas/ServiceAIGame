@@ -39,7 +39,7 @@ async function getGoblinMove(availableMoves: string[], enemyHp: number, enemySta
     if (enemyHp <= 0) {
         prompt = "You are a defeated goblin. Say something as you fall in battle."
     } else if (enemySta <= 0) {
-        prompt = 'You are a tired goblin with no stamina left. Say something while doing a Weak Attack.';
+        prompt = 'You are a tired goblin with no stamina left. Say something while doing a Weak Attack or Rest action.';
     } else {
         prompt = `You are a goblin with ${enemyHp} HP and ${enemySta} stamina. Choose one of these moves: ${availableMoves.join(', ')}. Include goblin-like dialogue.`;
     }
