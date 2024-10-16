@@ -1,19 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <title>Battle Skills</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Goblin Battle</title>
+  <link rel="stylesheet" href="index.css">
 </head>
+
 <body>
-  <button onclick="chooseSkill()">Choose Battle Skill</button>
-  <p id="skill"></p>
+  <h1>Goblin Battle</h1>
+
+  <div id="game-container">
+    <div class="status">
+      <p><strong>Player HP:</strong> <span id="player-hp">100</span></p>
+      <p><strong>Player STA:</strong> <span id="player-sta">70</span></p>
+      <p><strong>Goblin HP:</strong> <span id="goblin-hp">100</span></p>
+      <p><strong>Goblin STA:</strong> <span id="goblin-sta">40</span></p>
+    </div>
+
+    <div>
+      <button class="action-button" onclick="playerAction('Slash', 20)">Slash</button>
+      <button class="action-button" onclick="playerAction('Stab', 30)">Stab</button>
+      <button class="action-button" onclick="playerAction('Kick', 10)">Kick</button>
+    </div>
+
+    <div id="result" class="status">
+      <p id="goblin-dialogue"></p>
+      <p id="action-result">Choose your attack!</p>
+    </div>
+  </div>
 
   <script>
-    async function chooseSkill() {
-      const res = await fetch('/choose-skill')
-      const data = await res.json()
-      document.getElementById('skill').innerText = data.skill
+    let playerHp = 100
+    let playerSta = 70
+    let goblinHp = 100
+    let goblinSta = 40
+
+    async function playerAction(action, damage) {
+      // Prepare the request data
+      const data = {
+        playerAction: action,
+        playerDamage: damage,
+        playerHp: playerHp,
+        playerMp: 50,  // Arbitrary value
+        playerSta: playerSta, // Arbitrary value
+        enemyAction: '', // The goblin's action will be decided by the server
+        enemyDamage: 0,  // Placeholder, goblin's attack determined by AI
+        enemyHp: goblinHp, // Current goblin HP
+        enemyMp: 10,  // Arbitrary value
+        enemySta: goblinSta  // Arbitrary value
+      };
+
+      try {
+        // Send a POST request to the backend to execute the action
+        const response = await fetch('http://localhost:3000/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+
+        // Get the result from the backend
+        const result = await response.json();
+
+        // Update goblin HP and display the goblin's action
+        goblinHp = result.goblinHp
+        playerHp = result.playerHp
+        playerSta = result.playerSta
+        goblinSta = result.goblinSta
+
+        document.getElementById('player-hp').textContent = playerHp
+        document.getElementById('player-sta').textContent = playerSta
+        document.getElementById('goblin-hp').textContent = goblinHp
+        document.getElementById('goblin-sta').textContent = goblinSta
+
+        document.getElementById('action-result').textContent = `You dealt ${result.playerDamage} damage. Goblin's Action: ${result.goblinAction}. Goblin dealt ${result.goblinDamage} damage.`
+        document.getElementById('goblin-dialogue').textContent = `Goblin: "${result.goblinDialogue}"`
+
+        // Check if the goblin is defeated
+        if (goblinHp <= 0) {
+          document.getElementById('action-result').textContent = 'Goblin has been defeated!'
+        }
+
+        if (playerHp <= 0) {
+          document.getElementById('action-result').textContent = 'You have been defeated!'
+        }
+
+      } catch (error) {
+        console.error('Error during battle:', error)
+        document.getElementById('action-result').textContent = 'An error occurred during the battle.'
+      }
     }
   </script>
 </body>
+
 </html>
